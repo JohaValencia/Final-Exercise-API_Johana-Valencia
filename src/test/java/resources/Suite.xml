@@ -1,0 +1,30 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="API Test">
+    <listeners>
+        <listener class-name="script.utils.Listener"/>
+    </listeners>
+
+    <parameter name="endpoint" value="https://637fa1902f8f56e28e926ba6.mockapi.io/api/Bank1"/>
+
+    <test name="Verify endpoint script" enabled="true">
+        <classes>
+            <class name="script.tests.VerifyEndpointTest"/>
+        </classes>
+    </test>
+    <test name="Initialize pojo script" enabled="true">
+        <classes>
+            <class name="script.tests.POJOTest"/>
+        </classes>
+    </test>
+    <test name="Verify email duplicate script" enabled="true">
+        <classes>
+            <class name="script.tests.GetRequestTest"/>
+        </classes>
+    </test>
+    <test name="Update an existing user script" enabled="true">
+        <classes>
+            <class name="script.tests.AccountNumberTest"/>
+        </classes>
+    </test>
+</suite>
