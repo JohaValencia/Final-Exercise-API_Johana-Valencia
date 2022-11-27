@@ -37,23 +37,11 @@ public class BaseTest {
     }
 
     protected User getUser(String endpoint, int id) {
-        RestAssured.baseURI = endpoint;
-        RequestSpecification httpRequest = given();
-        Response response = httpRequest.get("");
-
-        JsonPath jsonPathEvaluator = response.jsonPath();
-
-        User user = new User();
-
-        try {
-            user = jsonPathEvaluator.get(String.valueOf(id));
-
-        } catch (Exception e) {
-            Reporter.error(String.valueOf(e));
-        }
-        getUsers = response.getStatusCode();
-        return user;
-
+        Response response = given()
+                .contentType("application/json")
+                .when()
+                .get(endpoint + "/" + id);
+        return response.getBody().as(User.class);
     }
 
     protected int getAllUsers(String endpoint) {

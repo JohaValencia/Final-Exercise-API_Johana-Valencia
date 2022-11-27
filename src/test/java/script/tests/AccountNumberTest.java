@@ -9,7 +9,7 @@ import script.utils.BaseTest;
 
 public class AccountNumberTest extends BaseTest {
 
-    private int id = 1;
+    private int accountNumber = 666;
 
 
     @Test
@@ -17,11 +17,11 @@ public class AccountNumberTest extends BaseTest {
     public void accountNumberTest(String endpoint) {
         User userToUpdate = createRandomUser();
         userToUpdate = newUser(endpoint, userToUpdate);
-        userToUpdate.setAccountNumber(666);
-        System.out.println(updateUser(endpoint, userToUpdate));
+        userToUpdate.setAccountNumber(accountNumber);
+        updateUser(endpoint, userToUpdate);
         User userFromAPI =  getUser(endpoint, userToUpdate.getId());
 
         Reporter.info("Checking the account number was correctly updated");
-        Assert.assertEquals(userFromAPI.getAccountNumber(), 666, "User is not updated");
+        Assert.assertEquals(userFromAPI.getAccountNumber(), accountNumber, "User is not updated");
     }
 }
