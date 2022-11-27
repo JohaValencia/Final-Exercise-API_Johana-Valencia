@@ -36,6 +36,26 @@ public class BaseTest {
 
     }
 
+    protected User getUser(String endpoint, int id) {
+        RestAssured.baseURI = endpoint;
+        RequestSpecification httpRequest = given();
+        Response response = httpRequest.get("");
+
+        JsonPath jsonPathEvaluator = response.jsonPath();
+
+        User user = new User();
+
+        try {
+            user = jsonPathEvaluator.get(String.valueOf(id));
+
+        } catch (Exception e) {
+            Reporter.error(String.valueOf(e));
+        }
+        getUsers = response.getStatusCode();
+        return user;
+
+    }
+
     protected int getAllUsers(String endpoint) {
         getUsersList(endpoint);
         return getUsers;
@@ -50,13 +70,13 @@ public class BaseTest {
 
     }
 
-    protected int newUser(String endpoint, User user) {
+    protected User newUser(String endpoint, User user) {
         Response response = given()
                 .contentType("application/json")
                 .body(user)
                 .when()
                 .post(endpoint);
-        return response.getStatusCode();
+        return response.getBody().as(User.class);
 
     }
 
@@ -86,48 +106,33 @@ public class BaseTest {
         return deleteUser.contains(true);
     }
 
-    protected List<User> createANewUser(int userNumber) {
+    protected List<User> createRandomUsers(int userNumber) {
         List<User> users = new ArrayList<>();
-        Faker javaFaker = Faker.instance(new Locale("ENG"));
-        for (int i = 0; i < userNumber; i++) {
-            users.add(new User(
-                    javaFaker.name().firstName(),
-                    javaFaker.name().lastName(),
-                    javaFaker.number().numberBetween(100,100000),
-                    javaFaker.number().randomDouble(10, 1000, 10000000),
-                    javaFaker.options().option("payment", "deposit", "amount"),
-                    javaFaker.internet().emailAddress(),
-                    javaFaker.random().nextBoolean(),
-                    javaFaker.country().name(),
-                    javaFaker.phoneNumber().cellPhone()
-                    ));
-        }
 
-        String duplicateEmail = javaFaker.internet().emailAddress();
-        users.get(0).setEmail(duplicateEmail);
-        users.get(userNumber - 1).setEmail(duplicateEmail);
+
+        for (int i = 0; i < userNumber; i++) {
+            users.add(createRandomUser());
+        }
 
         return users;
 
 
     }
 
-    protected int userIsUpdate(String endpoint, int id) {
-        User user = getUsersList(endpoint).get(id - 1);
+    protected User createRandomUser() {
         Faker javaFaker = Faker.instance(new Locale("ENG"));
-
-        user.setFirstName(javaFaker.name().firstName());
-        user.setLastName(javaFaker.name().lastName());
-        user.setAccountNumber(javaFaker.number().numberBetween(100,100000));
-        user.setAmount(javaFaker.number().randomDouble(10,1000, 10000000));
-        user.setTransactionType(javaFaker.options().option("payment", "deposit", "amount"));
-        user.setEmail(javaFaker.internet().emailAddress());
-        user.setActive(javaFaker.random().nextBoolean());
-        user.setTelephone(javaFaker.phoneNumber().cellPhone());
-
-        return userIsUpdate(endpoint, id);
+        return new User(
+                javaFaker.name().firstName(),
+                javaFaker.name().lastName(),
+                javaFaker.number().numberBetween(100, 100000),
+                javaFaker.number().randomDouble(10, 1000, 10000000),
+                javaFaker.options().option("payment", "deposit", "amount"),
+                javaFaker.internet().emailAddress(UUID.randomUUID().toString()),
+                javaFaker.random().nextBoolean(),
+                javaFaker.country().name(),
+                javaFaker.phoneNumber().cellPhone()
+        );
     }
-
 
     protected boolean verifyEmailDuplicate(String endpoint) {
         List<String> emails = new ArrayList<>();
@@ -139,24 +144,5 @@ public class BaseTest {
         return setUser.size() == getUsersList(endpoint).size();
     }
 
-    protected boolean newUsers(String endpoint, int usersNumber) {
-        List<User> users = createANewUser(usersNumber);
-        List<Boolean> userStatus = new ArrayList<>();
-
-        for (int i = 0; i < users.size(); i++) {
-            boolean emailCreated = false;
-            for (int j = 0; j < users.size() && !emailCreated; j++) {
-                if (users.get(i).getEmail().equals(users.get(j).getEmail()) && i < j) {
-                    Reporter.info("This Email " + users.get(j).getEmail() + "is already created. Try again with another one");
-                    emailCreated = true;
-                }
-            }
-            if (!emailCreated) {
-                userStatus.add(newUser(endpoint, users.get(i)) == 201);
-            }
-        }
-        return !userStatus.contains(false);
-
-    }
 
 }

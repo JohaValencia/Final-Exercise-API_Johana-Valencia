@@ -5,7 +5,7 @@
         <listener class-name="script.utils.Listener"/>
     </listeners>
 
-    <parameter name="endpoint" value="https://637fa1902f8f56e28e926ba6.mockapi.io/api/Bank1"/>
+    <parameter name="endpoint" value="https://637fa1902f8f56e28e926ba6.mockapi.io/api/Bank1/user"/>
 
     <test name="Verify endpoint script" enabled="true">
         <classes>
