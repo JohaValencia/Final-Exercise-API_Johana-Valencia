@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ae5ad55-71e5-4536-b837-e5bac8a93db0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/resources/Suite.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/resources/Suite.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/script/tests/AccountNumberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/script/tests/AccountNumberTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/script/tests/POJOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/script/tests/POJOTest.java" afterDir="false" />
@@ -27,6 +29,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
